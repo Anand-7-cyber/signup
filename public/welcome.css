@@ -1,0 +1,83 @@
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background: #f9f9f9;
+}
+a {
+    text-decoration: none;
+    color: #007BFF;
+}
+
+/* Header */
+.header {
+    background: #007BFF;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+.header nav a {
+    margin: 0 15px;
+    color: white;
+    font-weight: bold;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 50px 20px;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: white;
+}
+.hero h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+.hero button {
+    padding: 10px 20px;
+    border: none;
+    background: #ffcc00;
+    color: #333;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.hero button:hover {
+    background: #ffaa00;
+}
+
+/* Quick Links Section */
+.quick-links {
+    padding: 20px;
+    text-align: center;
+}
+.quick-links .cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Footer */
+.footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: 14.5rem;
+}
