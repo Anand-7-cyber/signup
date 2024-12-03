@@ -81,6 +81,15 @@ app.get('/welcome', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'welcome.html'));
 });
 
+// Check if user is logged in
+app.get('/check-session', (req, res) => {
+    if (req.session.user) {
+        res.json({ success: true, user: req.session.user });
+    } else {
+        res.json({ success: false });
+    }
+});
+
 // Signup Route
 app.post('/signup', async (req, res) => {
     try {
@@ -129,7 +138,8 @@ app.post('/login', async (req, res) => {
             return res.json({ success: false, message: 'Invalid credentials' });
         }
 
-        req.session.user = user; // Set session
+        // Set session after successful login
+        req.session.user = { id: user._id, username: user.username, email: user.email }; // Store session details
         res.json({ success: true, message: 'Login successful!' });
     } catch (error) {
         console.error('Error during login:', error.message);

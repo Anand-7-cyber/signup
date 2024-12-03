@@ -17,7 +17,7 @@ document.getElementById('signupForm')?.addEventListener('submit', async (e) => {
 
         if (data.success) {
             document.getElementById('successMessage').textContent = data.message;
-            window.location.href = '/login';
+            window.location.href = '/login'; // Redirect to login page
         } else {
             document.getElementById('errorMessage').textContent = data.message;
         }
@@ -44,7 +44,7 @@ document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
         const data = await response.json();
 
         if (data.success) {
-            window.location.href = '/welcome';
+            window.location.href = '/welcome'; // Redirect to welcome page
         } else {
             document.getElementById('errorMessage').textContent = data.message;
         }
