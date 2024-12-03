@@ -1,13 +1,15 @@
 require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const bodyParser = require('body-parser');
 const path = require('path');
-const expressSession = require('express-session');
+const session = require('express-session');
 const cors = require('cors');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const MongoStore = require('connect-mongo'); // MongoStore import karna
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,27 +21,28 @@ if (!process.env.SESSION_SECRET || !process.env.MONGO_URI || !process.env.EMAIL_
 }
 
 // Middleware setup
-app.use(cors({
-    origin: 'https://signup-1-6j66.onrender.com', // Replace with your front-end URL
-    credentials: true,
-}));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
-// Session setup
-app.use(expressSession({
+// Session setup with MongoStore
+app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
+    store: MongoStore.create({ 
+        mongoUrl: process.env.MONGO_URI, // Aapka MongoDB URI
+        ttl: 14 * 24 * 60 * 60, // 14 din ke liye session store karna
+    }),
     cookie: {
-        secure: process.env.NODE_ENV === 'production', // secure cookie in production
+        secure: process.env.NODE_ENV === 'production', // Production mein hi true
         httpOnly: true,
-        maxAge: 3600000, // 1 hour
+        maxAge: 3600000, // 1 ghanta
     },
 }));
 
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.error('Error connecting to MongoDB:', err));
 
