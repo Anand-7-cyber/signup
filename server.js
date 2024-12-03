@@ -13,6 +13,12 @@ const nodemailer = require('nodemailer');
 const app = express();
 const PORT = 5000;
 
+// Ensure required environment variables are set
+if (!process.env.SESSION_SECRET || !process.env.MONGO_URI || !process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.error("Missing environment variables!");
+    process.exit(1); // Exit if any environment variable is missing
+}
+
 // Middleware setup
 app.use(cors());
 app.use(bodyParser.json());
@@ -23,6 +29,11 @@ app.use(expressSession({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production', // secure cookie in production
+        httpOnly: true,
+        maxAge: 3600000, // 1 hour
+    },
 }));
 
 // MongoDB connection
@@ -143,7 +154,7 @@ app.post('/forgot-password', async (req, res) => {
         await user.save();
 
         // Send email
-        const resetLink = `http://localhost:${PORT}/reset-password/${resetToken}`;
+        const resetLink = `https://${req.get('host')}/reset-password/${resetToken}`;
         const mailOptions = {
             to: email,
             subject: 'Password Reset Request',
