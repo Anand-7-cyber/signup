@@ -1,5 +1,4 @@
 require('dotenv').config();
-
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
@@ -11,7 +10,7 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // Ensure required environment variables are set
 if (!process.env.SESSION_SECRET || !process.env.MONGO_URI || !process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
@@ -20,7 +19,10 @@ if (!process.env.SESSION_SECRET || !process.env.MONGO_URI || !process.env.EMAIL_
 }
 
 // Middleware setup
-app.use(cors());
+app.use(cors({
+    origin: 'https://your-app-url.onrender.com', // Replace with your front-end URL
+    credentials: true,
+}));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
@@ -37,7 +39,7 @@ app.use(expressSession({
 }));
 
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URI,)
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.error('Error connecting to MongoDB:', err));
 
