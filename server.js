@@ -20,7 +20,7 @@ if (!process.env.SESSION_SECRET || !process.env.MONGO_URI || !process.env.EMAIL_
 
 // Middleware setup
 app.use(cors({
-    origin: 'https://your-app-url.onrender.com', // Replace with your front-end URL
+    origin: 'https://signup-1-6j66.onrender.com', // Replace with your front-end URL
     credentials: true,
 }));
 app.use(bodyParser.json());
